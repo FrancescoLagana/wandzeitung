@@ -101,8 +101,8 @@ finalise_plot(p1, source = "Personallkennzahlen EDI, 2017",
 
 # Graphique 3: je ne lis pas les données de l'excel:
 df = read.table(text = "category value
-                          Femmes 0.46
-                 Hommes 0.54", header = T, sep = "")
+                          Femmes 0.XX
+                 Hommes 0.XX", header = T, sep = "")
 
 df$category <- factor(df$category, levels = sex_fr, ordered = TRUE)
 
@@ -138,7 +138,7 @@ bb_pie <- function() {
 }
 
 # Tidy up the theme
-pie <- pie + bb_pie() + labs(title = "Primes versées en francs, en 2017", subtitle = "Valeur totale des primes en 2017 : CHF 361'750")
+pie <- pie + bb_pie() + labs(title = "Primes versées en francs, en 2017", subtitle = "Valeur totale des primes en 2017 : CHF XXX'XXX")
 
 pie
 finalise_plot(pie, source = "Personallkennzahlen EDI, 2017",
