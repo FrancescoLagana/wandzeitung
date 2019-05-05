@@ -76,7 +76,7 @@ p <- ggplot(df,aes(x = occup, y = value, fill = forcats::fct_rev(variable))) +
   geom_label(aes(x = 2, y = 7000, label = "+1532 fr."),
              hjust = 0.5, 
              vjust = 0.5, 
-             colour = "white", 
+             colour = "black", 
              fill = "#a398e2", 
              label.size = NA, 
              family = "Helvetica", 
@@ -149,7 +149,7 @@ p <- ggplot(df,aes(x = besch, y = value, fill = forcats::fct_rev(variable))) +
   geom_label(aes(x = 2, y = 7000, label = "+1532 Fr."), 
              hjust = 0.5, 
              vjust = 0.5, 
-             colour = "white", 
+             colour = "black", 
              fill = "#a398e2", 
              label.size = NA, 
              family = "Helvetica", 
@@ -226,22 +226,26 @@ df$occup <- factor(df$occup, levels = c('Haute école universitaire (UNI, EPF)',
                                           )
 
 
-p <- ggplot(df, aes(x = occup, y = value,fill = variable )) + 
-  geom_bar(position = "dodge",stat = "identity",width = 0.9) +
-  scale_y_continuous(limits = c(0, 13000), breaks = c(0, 2000, 4000, 6000, 8000, 10000, 12000), 
+p <- ggplot(df, aes(x = occup, y = value,fill = variable )) +
+  geom_bar( position = "dodge",stat = "identity",width = 0.9) +
+  scale_y_continuous(limits = c(0, 13000), breaks = c(0, 2000, 4000, 6000, 8000, 10000, 12000),
                      labels = c("0", "2000", "4000", "6000", "8000", "10000", "12000 fr.")) +
   bb_streik() + scale_fill_manual(values = c("#ee8704", "#a398e2", "#6752c0")) +
-  theme(legend.position = "bottom", legend.direction = "horizontal", legend.title = element_blank(), 
+  theme(legend.position = "bottom", legend.direction = "horizontal", legend.title = element_blank(),
         legend.spacing.x = unit(0.30, 'cm'), legend.key.height  = unit(0.1,"cm")) +
   guides(fill = guide_legend(reverse = TRUE, nrow = 2)) +
   coord_flip() +
   scale_x_discrete(limits = levels(df$occup)) +
-  labs(title = "Salaire mensuel brut selon la formation, en 2016", 
+  labs(title = "Salaire mensuel brut selon la formation, en 2016",
        subtitle = "Valeur centrale (médiane), en francs - Secteur privé") +
-  theme(panel.grid.major.x = element_line(color = "#cbcbcb"), 
+  theme(panel.grid.major.x = element_line(color = "#cbcbcb"),
         panel.grid.major.y = element_blank())  +
-    geom_text(aes(y=value, label=value),hjust=1,color="white",
-              stat='identity',position=position_dodge(0.9), size = 12)
+  geom_text(aes(y=value, label=value, color=variable),hjust=1,
+            stat='identity',position=position_dodge(0.9), size = 12)+
+  scale_color_manual(values=c("black", "black", "white"),
+                     breaks = c("", "", ""),
+                     labels = c("", "", ""))
+
 p
 
 finalise_plot(p, source = "Source: Enquête suisse sur la structure des salaires (ESS)", 
@@ -274,23 +278,26 @@ df$besch <- factor(df$besch, levels = c('Universitäre Hochschule (UNI, ETH)',
 )
 
 
-p <- ggplot(df, aes(x = besch, y = value,fill = variable )) + 
-  geom_bar(position="dodge",stat = "identity",width = 0.9) +
-  scale_y_continuous(limits = c(0, 13000),  breaks = c(0, 2000, 4000, 6000, 8000, 10000, 12000), 
+
+p <- ggplot(df, aes(x = besch, y = value,fill = variable )) +
+  geom_bar( position = "dodge",stat = "identity",width = 0.9) +
+  scale_y_continuous(limits = c(0, 13000), breaks = c(0, 2000, 4000, 6000, 8000, 10000, 12000),
                      labels = c("0", "2000", "4000", "6000", "8000", "10000", "12000 Fr.")) +
-  bb_streik() + scale_fill_manual(values = c("#ee8704","#a398e2", "#6752c0")) +
-  theme(legend.position = "bottom", legend.direction = "horizontal", legend.title = element_blank(), 
-        legend.spacing.x = unit(0.30, 'cm')) +
+  bb_streik() + scale_fill_manual(values = c("#ee8704", "#a398e2", "#6752c0")) +
+  theme(legend.position = "bottom", legend.direction = "horizontal", legend.title = element_blank(),
+        legend.spacing.x = unit(0.30, 'cm'), legend.key.height  = unit(0.1,"cm")) +
   guides(fill = guide_legend(reverse = TRUE, nrow = 2)) +
   coord_flip() +
-  scale_x_discrete(limits = levels(df$besch))+
-  labs(title = "Monatlicher Bruttolohn nach Ausbildung, 2016", 
-       subtitle = "Zentralwert (Median), in Franken - Privater Sektor")  +
-        theme(panel.grid.major.x = element_line(color = "#cbcbcb"), 
-        panel.grid.major.y = element_blank()) +
-  geom_text(aes(y=value, label=value),hjust=1,color="white",
-            stat='identity',position=position_dodge(0.9), size = 12)
-p
+  scale_x_discrete(limits = levels(df$besch)) +
+  labs(title = "Monatlicher Bruttolohn nach Ausbildung, 2016",
+       subtitle = "Zentralwert (Median), in Franken - Privater Sektor") +
+  theme(panel.grid.major.x = element_line(color = "#cbcbcb"),
+        panel.grid.major.y = element_blank())  +
+  geom_text(aes(y=value, label=value, color=variable),hjust=1,
+            stat='identity',position=position_dodge(0.9), size = 12)+
+  scale_color_manual(values=c("black", "black", "white"),
+                     breaks = c("", "", ""),
+                     labels = c("", "", ""))
 
 finalise_plot(p, source = "Quelle: Schweizerische Lohnstrukturerhebung (LSE)", 
               "/home/flagana/Dropbox/Francesco/F. Lavori/Infografica/week_7/graph2_de.pdf", 
